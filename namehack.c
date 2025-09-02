@@ -34,23 +34,30 @@
 
 #define TERMINATOR "NAMEHACK_TERMINATOR"
 
+static struct passwd *(*real_getpwuid)(uid_t) = NULL;
+static struct group *(*real_getgrgid)(gid_t) = NULL;
+
 
 static int get_terminator()
 {
-        char *t = getenv(TERMINATOR);
-        if (t && *t) {
-                return *t;
+        static int cached = -1;
+        if (cached >= 0) {
+                return cached;
         }
 
-        return '.';
+        char *t = getenv(TERMINATOR);
+        cached = (t && *t) ? *t : '.';
+
+        return cached;
 }
 
 struct passwd *getpwuid(uid_t uid)
 {
-        static struct passwd *(*real_getpwuid)(uid_t);
-        real_getpwuid = dlsym(RTLD_NEXT, "getpwuid");
         if (!real_getpwuid) {
-                return NULL;
+                real_getpwuid = dlsym(RTLD_NEXT, "getpwuid");
+                if (!real_getpwuid) {
+                        return NULL;
+                }
         }
 
         struct passwd *pw = real_getpwuid(uid);
@@ -67,10 +74,11 @@ struct passwd *getpwuid(uid_t uid)
 
 struct group *getgrgid(gid_t gid)
 {
-        static struct group *(*real_getgrgid)(gid_t);
-        real_getgrgid = dlsym(RTLD_NEXT, "getgrgid");
         if (!real_getgrgid) {
-                return NULL;
+                real_getgrgid = dlsym(RTLD_NEXT, "getgrgid");
+                if (!real_getgrgid) {
+                        return NULL;
+                }
         }
 
         struct group *gr = real_getgrgid(gid);
