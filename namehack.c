@@ -25,8 +25,9 @@
  * For more information, please refer to <https://unlicense.org/>
  */
 
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <pwd.h>
 #include <grp.h>
@@ -56,14 +57,14 @@ struct passwd *getpwuid(uid_t uid)
         if (!real_getpwuid) {
                 real_getpwuid = dlsym(RTLD_NEXT, "getpwuid");
                 if (!real_getpwuid) {
+                        fprintf(stderr, "%s\n", dlerror());
                         return NULL;
                 }
         }
 
         struct passwd *pw = real_getpwuid(uid);
         if (pw) {
-                int t = get_terminator();
-                char *pos = strchr(pw->pw_name, t);
+                char *pos = strchr(pw->pw_name, get_terminator());
                 if (pos) {
                         *pos = 0;
                 }
@@ -77,14 +78,14 @@ struct group *getgrgid(gid_t gid)
         if (!real_getgrgid) {
                 real_getgrgid = dlsym(RTLD_NEXT, "getgrgid");
                 if (!real_getgrgid) {
+                        fprintf(stderr, "%s\n", dlerror());
                         return NULL;
                 }
         }
 
         struct group *gr = real_getgrgid(gid);
         if (gr) {
-                int t = get_terminator();
-                char *pos = strchr(gr->gr_name, t);
+                char *pos = strchr(gr->gr_name, get_terminator());
                 if (pos) {
                         *pos = 0;
                 }
