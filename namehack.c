@@ -47,7 +47,7 @@ static int get_terminator()
         }
 
         char *t = getenv(TERMINATOR);
-        cached = (t && *t) ? *t : '.';
+        cached = (t && *t) ? *t : '@';
 
         return cached;
 }

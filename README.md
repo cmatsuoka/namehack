@@ -7,4 +7,4 @@ Directions: Build using the supplied Makefile. Install `libnamehack.so` somewher
 and create an alias `ls='LD_PRELOAD <somewhere>/libnamehack.so ls'`.
 
 Set the `NAMEHACK_TERMINATOR` environment variable to a character to terminate
-the user and group name strings. The default terminator is `.`.
+the user and group name strings. The default terminator is `@`.
