@@ -42,12 +42,10 @@ static struct group *(*real_getgrgid)(gid_t) = NULL;
 static int get_terminator()
 {
         static int cached = -1;
-        if (cached >= 0) {
-                return cached;
+        if (cached < 0) {
+                char *t = getenv(TERMINATOR);
+                cached = (t && *t) ? *t : '@';
         }
-
-        char *t = getenv(TERMINATOR);
-        cached = (t && *t) ? *t : '@';
 
         return cached;
 }
