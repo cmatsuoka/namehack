@@ -1,4 +1,10 @@
-<p align="center"><img src="logo.png"></p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="logo.png">
+    <source media="(prefers-color-scheme: dark)" srcset="logo_dark.png">
+    <img src="logo.png">
+  </picture>
+</p>
 
 # Namehack
 
