@@ -1,4 +1,11 @@
+<p align="center"><img src="logo.png"></p>
+
 # Namehack
+
+![GitHub contributors](https://img.shields.io/github/contributors/cmatsuoka/namehack)
+![Static Badge](https://img.shields.io/badge/docs-none-blue)
+![Static Badge](https://img.shields.io/badge/coverage-0%25-green)
+![Static Badge](https://img.shields.io/badge/should%20I%20use%20it-of%20course%20not-yellow)
 
 This was written to de-uglify the output of `ls -l` if you need to use an account
 with a very long username.
